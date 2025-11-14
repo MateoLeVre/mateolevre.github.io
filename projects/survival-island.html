@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Survival Island - A C# Tower Defense Game">
+    <title>Survival Island - Portfolio Project</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Space+Grotesk:wght@400;600;700&display=swap');
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #60a5fa;
+            --primary-lighter: #dbeafe;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --accent-green: #10b981;
+            --accent-purple: #8b5cf6;
+            --accent-orange: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .back-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.4);
+        }
+
+        /* Header Section */
+        .hero {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 4rem 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .hero h2 {
+            font-size: clamp(1.25rem, 3vw, 1.8rem);
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Badges */
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: var(--primary-lighter);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* GitHub Button */
+        .github-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: var(--dark);
+            color: white;
+            text-decoration: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.3);
+        }
+
+        .github-btn:hover {
+            background: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.4);
+        }
+
+        .github-btn::before {
+            content: "⭐ ";
+        }
+
+        /* Content Sections */
+        .section {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .section h3 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--primary-lighter);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-card {
+            background: var(--light);
+            padding: 1.75rem;
+            border-radius: 1rem;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 1.5rem 0;
+        }
+
+        .tech-item {
+            background: var(--primary-lighter);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .tech-item:hover {
+            background: var(--primary);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--dark);
+            color: white;
+            border-radius: 1.5rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .footer p {
+            opacity: 0.9;
+            margin: 0.5rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .hero {
+                padding: 2.5rem 1.5rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .hero {
+            animation: slideUp 0.6s ease-out;
+        }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 0.5rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 2px solid transparent;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background: var(--primary-lighter);
+            color: var(--primary);
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .language-switcher {
+                top: 1rem;
+                right: 1rem;
+                padding: 0.4rem;
+            }
+
+            .lang-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-box {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            border: 2px solid var(--primary-lighter);
+            transition: all 0.3s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .stat-box .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-box .label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" onclick="changeLanguage('fr')">🇫🇷 FR</button>
+        <button class="lang-btn" onclick="changeLanguage('en')">🇬🇧 EN</button>
+    </div>
+
+    <div class="container">
+        <!-- Back Button -->
+        <a href="../index.html" class="back-btn" data-i18n="nav.back">← Retour au Portfolio</a>
+
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>🏝️ Survival Island</h1>
+            <h2 data-i18n="hero.subtitle">Un jeu de défense d'île en C#</h2>
+            <p data-i18n="hero.description">
+                Survival Island est un jeu de tower defense développé en C# où les joueurs doivent défendre leur île contre des vagues d'ennemis. Le projet met l'accent sur le gameplay stratégique avec un système d'amélioration de base et une IA ennemie.
+            </p>
+
+            <div class="badges">
+                <span class="badge">C#</span>
+                <span class="badge">.NET</span>
+                <span class="badge" data-i18n="hero.badge.gamedev">Game Dev</span>
+                <span class="badge" data-i18n="hero.badge.tower">Tower Defense</span>
+                <span class="badge" data-i18n="hero.badge.teamwork">Travail d'équipe</span>
+            </div>
+
+            <a href="https://github.com/ForWarZz/Survival-Island" class="github-btn" target="_blank" data-i18n="hero.github">
+                Voir sur GitHub
+            </a>
+        </div>
+
+        <!-- Project Stats -->
+        <div class="section">
+            <h3 data-i18n="stats.title">📊 Statistiques du Projet</h3>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="number">205+</div>
+                    <div class="label" data-i18n="stats.commits">Commits</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">2</div>
+                    <div class="label" data-i18n="stats.developers">Développeurs</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number">100%</div>
+                    <div class="label">C#</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" data-i18n="stats.active">Actif</div>
+                    <div class="label" data-i18n="stats.status">Statut</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Description Section -->
+        <div class="section">
+            <h3 data-i18n="about.title">📖 À propos du projet</h3>
+            <p style="font-size: 1.125rem; margin-bottom: 1.5rem; color: var(--text-light);" data-i18n="about.description">
+                Survival Island est un projet de jeu vidéo développé en C# qui combine des éléments de tower defense et de survival. Les joueurs doivent protéger leur île contre des vagues d'ennemis tout en améliorant leurs défenses et en gérant leurs ressources.
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4 data-i18n="features.map.title">🗺️ Création de Carte</h4>
+                    <p data-i18n="features.map.desc">Système de génération de carte avec bordures et obstacles pour créer des environnements variés et stratégiques.</p>
+                </div>
+                <div class="feature-card">
+                    <h4 data-i18n="features.player.title">🎮 Personnage Joueur</h4>
+                    <p data-i18n="features.player.desc">Contrôle du personnage centré à l'écran avec système de vie, dégâts, vitesse et mécaniques de tir.</p>
+                </div>
+                <div class="feature-card">
+                    <h4 data-i18n="features.island.title">🏰 Structure d'Île</h4>
+                    <p data-i18n="features.island.desc">Base centrale avec interface d'amélioration et barre de vie, cœur de la défense du joueur.</p>
+                </div>
+                <div class="feature-card">
+                    <h4 data-i18n="features.enemies.title">👾 IA Ennemie</h4>
+                    <p data-i18n="features.enemies.desc">Ennemis qui apparaissent aléatoirement, se dirigent vers l'île et attaquent lorsqu'ils sont à proximité.</p>
+                </div>
+                <div class="feature-card">
+                    <h4 data-i18n="features.waves.title">🌊 Système de Vagues</h4>
+                    <p data-i18n="features.waves.desc">Vagues d'ennemis progressives avec système de récompense en points après chaque vague complétée.</p>
+                </div>
+                <div class="feature-card">
+                    <h4 data-i18n="features.multiplayer.title">🎯 Vision Multijoueur</h4>
+                    <p data-i18n="features.multiplayer.desc">Projet avec une vision à long terme pour un mode multijoueur à 4 équipes en compétition.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Stack Section -->
+        <div class="section">
+            <h3 data-i18n="tech.title">🛠️ Technologies Utilisées</h3>
+            <div class="tech-stack">
+                <div class="tech-item">C#</div>
+                <div class="tech-item">.NET Framework</div>
+                <div class="tech-item">Visual Studio</div>
+                <div class="tech-item">Game Development</div>
+                <div class="tech-item">OOP</div>
+            </div>
+
+            <h4 style="color: var(--accent-purple); margin: 2rem 0 1rem; font-size: 1.25rem;" data-i18n="tech.concepts">Concepts Clés Implémentés</h4>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4 data-i18n="technical.gameplay.title">🎯 Gameplay Loop</h4>
+                    <p data-i18n="technical.gameplay.desc">Boucle de jeu principale gérant les entrées joueur, les mises à jour d'état et le rendu graphique.</p>
+                </div>
+                <div class="feature-card">
+                    <h4 data-i18n="technical.ai.title">🤖 Intelligence Artificielle</h4>
+                    <p data-i18n="technical.ai.desc">Pathfinding et comportements ennemis pour créer des défis stratégiques variés.</p>
+                </div>
+                <div class="feature-card">
+                    <h4 data-i18n="technical.progression.title">📈 Système de Progression</h4>
+                    <p data-i18n="technical.progression.desc">Gestion des scores, récompenses et améliorations pour maintenir l'engagement du joueur.</p>
+                </div>
+                <div class="feature-card">
+                    <h4 data-i18n="technical.collision.title">💥 Détection de Collisions</h4>
+                    <p data-i18n="technical.collision.desc">Système de physique pour gérer les interactions entre projectiles, ennemis et structures.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenges Section -->
+        <div class="section">
+            <h3 data-i18n="challenges.title">🎓 Défis Techniques Relevés</h3>
+            <div class="feature-card" style="margin-bottom: 15px;">
+                <h4 data-i18n="challenges.balance.title">⚖️ Équilibrage du Gameplay</h4>
+                <p data-i18n="challenges.balance.desc">
+                    Ajustement de la difficulté des vagues d'ennemis, du système de points et des améliorations pour créer une courbe de progression satisfaisante.
+                </p>
+            </div>
+            <div class="feature-card" style="margin-bottom: 15px;">
+                <h4 data-i18n="challenges.ai.title">🧠 Développement de l'IA</h4>
+                <p data-i18n="challenges.ai.desc">
+                    Implémentation de comportements ennemis variés avec pathfinding vers l'île et gestion des priorités d'attaque.
+                </p>
+            </div>
+            <div class="feature-card" style="margin-bottom: 15px;">
+                <h4 data-i18n="challenges.performance.title">⚡ Optimisation des Performances</h4>
+                <p data-i18n="challenges.performance.desc">
+                    Gestion efficace de multiples entités simultanées sans impact sur la fluidité du jeu.
+                </p>
+            </div>
+            <div class="feature-card">
+                <h4 data-i18n="challenges.teamwork.title">👥 Collaboration d'Équipe</h4>
+                <p data-i18n="challenges.teamwork.desc">
+                    Coordination avec un autre développeur à travers plus de 200 commits, nécessitant une bonne communication et gestion de version.
+                </p>
+            </div>
+        </div>
+
+        <!-- Contribution Section -->
+        <div class="section">
+            <h3 data-i18n="contribution.title">🤝 Ma Contribution</h3>
+            <p style="font-size: 1.125rem; margin-bottom: 1.5rem; color: var(--text-light);" data-i18n="contribution.description">
+                En tant que développeur sur ce projet sous le pseudonyme <strong>MateoCMoi</strong>, j'ai contribué à plusieurs aspects clés du développement :
+            </p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h4 data-i18n="contribution.code.title">💻 Développement</h4>
+                    <p data-i18n="contribution.code.desc">Implémentation de fonctionnalités gameplay et systèmes de jeu en C#.</p>
+                </div>
+                <div class="feature-card">
+                    <h4 data-i18n="contribution.design.title">🎨 Game Design</h4>
+                    <p data-i18n="contribution.design.desc">Participation à la conception des mécaniques de jeu et de l'équilibrage.</p>
+                </div>
+                <div class="feature-card">
+                    <h4 data-i18n="contribution.testing.title">🧪 Tests & Debug</h4>
+                    <p data-i18n="contribution.testing.desc">Tests intensifs et résolution de bugs pour assurer la stabilité du jeu.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- GitHub CTA -->
+        <div class="section" style="text-align: center; background: var(--primary-lighter);">
+            <h3 style="margin-bottom: 1.5rem;" data-i18n="cta.title">🌟 Découvrez le Code Source</h3>
+            <p style="font-size: 1.125rem; margin-bottom: 1.75rem; color: var(--text-light);" data-i18n="cta.description">
+                Le projet est disponible sur GitHub avec l'ensemble du code source. C'est un excellent exemple de développement de jeu en C# avec une architecture orientée objet.
+            </p>
+            <a href="https://github.com/ForWarZz/Survival-Island" class="github-btn" target="_blank" data-i18n="cta.button">
+                Explorer le Repository GitHub
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p data-i18n="footer.project">Projet collaboratif développé avec ForWarZz</p>
+        <p>© 2024 - Survival Island - Game Development Project</p>
+        <p style="font-size: 0.875rem;" data-i18n="footer.team">
+            Développé en équipe - Plus de 205 commits
+        </p>
+    </div>
+
+    <script>
+        // i18n translations
+        const translations = {
+            fr: {
+                nav: {
+                    back: "← Retour au Portfolio"
+                },
+                hero: {
+                    subtitle: "Un jeu de défense d'île en C#",
+                    description: "Survival Island est un jeu de tower defense développé en C# où les joueurs doivent défendre leur île contre des vagues d'ennemis. Le projet met l'accent sur le gameplay stratégique avec un système d'amélioration de base et une IA ennemie.",
+                    badge: {
+                        gamedev: "Game Dev",
+                        tower: "Tower Defense",
+                        teamwork: "Travail d'équipe"
+                    },
+                    github: "Voir sur GitHub"
+                },
+                stats: {
+                    title: "📊 Statistiques du Projet",
+                    commits: "Commits",
+                    developers: "Développeurs",
+                    active: "Actif",
+                    status: "Statut"
+                },
+                about: {
+                    title: "📖 À propos du projet",
+                    description: "Survival Island est un projet de jeu vidéo développé en C# qui combine des éléments de tower defense et de survival. Les joueurs doivent protéger leur île contre des vagues d'ennemis tout en améliorant leurs défenses et en gérant leurs ressources."
+                },
+                features: {
+                    map: {
+                        title: "🗺️ Création de Carte",
+                        desc: "Système de génération de carte avec bordures et obstacles pour créer des environnements variés et stratégiques."
+                    },
+                    player: {
+                        title: "🎮 Personnage Joueur",
+                        desc: "Contrôle du personnage centré à l'écran avec système de vie, dégâts, vitesse et mécaniques de tir."
+                    },
+                    island: {
+                        title: "🏰 Structure d'Île",
+                        desc: "Base centrale avec interface d'amélioration et barre de vie, cœur de la défense du joueur."
+                    },
+                    enemies: {
+                        title: "👾 IA Ennemie",
+                        desc: "Ennemis qui apparaissent aléatoirement, se dirigent vers l'île et attaquent lorsqu'ils sont à proximité."
+                    },
+                    waves: {
+                        title: "🌊 Système de Vagues",
+                        desc: "Vagues d'ennemis progressives avec système de récompense en points après chaque vague complétée."
+                    },
+                    multiplayer: {
+                        title: "🎯 Vision Multijoueur",
+                        desc: "Projet avec une vision à long terme pour un mode multijoueur à 4 équipes en compétition."
+                    }
+                },
+                tech: {
+                    title: "🛠️ Technologies Utilisées",
+                    concepts: "Concepts Clés Implémentés"
+                },
+                technical: {
+                    gameplay: {
+                        title: "🎯 Gameplay Loop",
+                        desc: "Boucle de jeu principale gérant les entrées joueur, les mises à jour d'état et le rendu graphique."
+                    },
+                    ai: {
+                        title: "🤖 Intelligence Artificielle",
+                        desc: "Pathfinding et comportements ennemis pour créer des défis stratégiques variés."
+                    },
+                    progression: {
+                        title: "📈 Système de Progression",
+                        desc: "Gestion des scores, récompenses et améliorations pour maintenir l'engagement du joueur."
+                    },
+                    collision: {
+                        title: "💥 Détection de Collisions",
+                        desc: "Système de physique pour gérer les interactions entre projectiles, ennemis et structures."
+                    }
+                },
+                challenges: {
+                    title: "🎓 Défis Techniques Relevés",
+                    balance: {
+                        title: "⚖️ Équilibrage du Gameplay",
+                        desc: "Ajustement de la difficulté des vagues d'ennemis, du système de points et des améliorations pour créer une courbe de progression satisfaisante."
+                    },
+                    ai: {
+                        title: "🧠 Développement de l'IA",
+                        desc: "Implémentation de comportements ennemis variés avec pathfinding vers l'île et gestion des priorités d'attaque."
+                    },
+                    performance: {
+                        title: "⚡ Optimisation des Performances",
+                        desc: "Gestion efficace de multiples entités simultanées sans impact sur la fluidité du jeu."
+                    },
+                    teamwork: {
+                        title: "👥 Collaboration d'Équipe",
+                        desc: "Coordination avec un autre développeur à travers plus de 200 commits, nécessitant une bonne communication et gestion de version."
+                    }
+                },
+                contribution: {
+                    title: "🤝 Ma Contribution",
+                    description: "En tant que développeur sur ce projet sous le pseudonyme <strong>MateoCMoi</strong>, j'ai contribué à plusieurs aspects clés du développement :",
+                    code: {
+                        title: "💻 Développement",
+                        desc: "Implémentation de fonctionnalités gameplay et systèmes de jeu en C#."
+                    },
+                    design: {
+                        title: "🎨 Game Design",
+                        desc: "Participation à la conception des mécaniques de jeu et de l'équilibrage."
+                    },
+                    testing: {
+                        title: "🧪 Tests & Debug",
+                        desc: "Tests intensifs et résolution de bugs pour assurer la stabilité du jeu."
+                    }
+                },
+                cta: {
+                    title: "🌟 Découvrez le Code Source",
+                    description: "Le projet est disponible sur GitHub avec l'ensemble du code source. C'est un excellent exemple de développement de jeu en C# avec une architecture orientée objet.",
+                    button: "Explorer le Repository GitHub"
+                },
+                footer: {
+                    project: "Projet collaboratif développé avec ForWarZz",
+                    team: "Développé en équipe - Plus de 205 commits"
+                }
+            },
+            en: {
+                nav: {
+                    back: "← Back to Portfolio"
+                },
+                hero: {
+                    subtitle: "A C# Island Defense Game",
+                    description: "Survival Island is a tower defense game developed in C# where players must defend their island against waves of enemies. The project focuses on strategic gameplay with a base upgrade system and enemy AI.",
+                    badge: {
+                        gamedev: "Game Dev",
+                        tower: "Tower Defense",
+                        teamwork: "Teamwork"
+                    },
+                    github: "View on GitHub"
+                },
+                stats: {
+                    title: "📊 Project Statistics",
+                    commits: "Commits",
+                    developers: "Developers",
+                    active: "Active",
+                    status: "Status"
+                },
+                about: {
+                    title: "📖 About the Project",
+                    description: "Survival Island is a video game project developed in C# that combines tower defense and survival elements. Players must protect their island against enemy waves while upgrading their defenses and managing their resources."
+                },
+                features: {
+                    map: {
+                        title: "🗺️ Map Creation",
+                        desc: "Map generation system with borders and obstacles to create varied and strategic environments."
+                    },
+                    player: {
+                        title: "🎮 Player Character",
+                        desc: "Screen-centered character control with health, damage, speed and shooting mechanics."
+                    },
+                    island: {
+                        title: "🏰 Island Structure",
+                        desc: "Central base with upgrade interface and health bar, the heart of the player's defense."
+                    },
+                    enemies: {
+                        title: "👾 Enemy AI",
+                        desc: "Enemies that spawn randomly, move towards the island and attack when nearby."
+                    },
+                    waves: {
+                        title: "🌊 Wave System",
+                        desc: "Progressive enemy waves with point reward system after each completed wave."
+                    },
+                    multiplayer: {
+                        title: "🎯 Multiplayer Vision",
+                        desc: "Project with a long-term vision for a 4-team competitive multiplayer mode."
+                    }
+                },
+                tech: {
+                    title: "🛠️ Technologies Used",
+                    concepts: "Key Implemented Concepts"
+                },
+                technical: {
+                    gameplay: {
+                        title: "🎯 Gameplay Loop",
+                        desc: "Main game loop managing player inputs, state updates and graphics rendering."
+                    },
+                    ai: {
+                        title: "🤖 Artificial Intelligence",
+                        desc: "Pathfinding and enemy behaviors to create varied strategic challenges."
+                    },
+                    progression: {
+                        title: "📈 Progression System",
+                        desc: "Score, reward and upgrade management to maintain player engagement."
+                    },
+                    collision: {
+                        title: "💥 Collision Detection",
+                        desc: "Physics system to handle interactions between projectiles, enemies and structures."
+                    }
+                },
+                challenges: {
+                    title: "🎓 Technical Challenges",
+                    balance: {
+                        title: "⚖️ Gameplay Balancing",
+                        desc: "Adjusting enemy wave difficulty, point system and upgrades to create a satisfying progression curve."
+                    },
+                    ai: {
+                        title: "🧠 AI Development",
+                        desc: "Implementation of varied enemy behaviors with pathfinding to the island and attack priority management."
+                    },
+                    performance: {
+                        title: "⚡ Performance Optimization",
+                        desc: "Efficient management of multiple simultaneous entities without impacting game fluidity."
+                    },
+                    teamwork: {
+                        title: "👥 Team Collaboration",
+                        desc: "Coordination with another developer through over 200 commits, requiring good communication and version management."
+                    }
+                },
+                contribution: {
+                    title: "🤝 My Contribution",
+                    description: "As a developer on this project under the username <strong>MateoCMoi</strong>, I contributed to several key development aspects:",
+                    code: {
+                        title: "💻 Development",
+                        desc: "Implementation of gameplay features and game systems in C#."
+                    },
+                    design: {
+                        title: "🎨 Game Design",
+                        desc: "Participation in game mechanics design and balancing."
+                    },
+                    testing: {
+                        title: "🧪 Testing & Debug",
+                        desc: "Intensive testing and bug fixing to ensure game stability."
+                    }
+                },
+                cta: {
+                    title: "🌟 Discover the Source Code",
+                    description: "The project is available on GitHub with all the source code. It's an excellent example of C# game development with object-oriented architecture.",
+                    button: "Explore the GitHub Repository"
+                },
+                footer: {
+                    project: "Collaborative project developed with ForWarZz",
+                    team: "Developed as a team - Over 205 commits"
+                }
+            }
+        };
+
+        // Get saved language or default to French
+        let currentLang = localStorage.getItem('preferredLanguage') || 'fr';
+
+        // Change language function
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('preferredLanguage', lang);
+
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+
+            // Update all elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const keys = element.getAttribute('data-i18n').split('.');
+                let translation = translations[lang];
+
+                for (const key of keys) {
+                    translation = translation[key];
+                }
+
+                element.innerHTML = translation;
+            });
+
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.onclick.toString().includes(`'${lang}'`)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (currentLang === 'en') {
+                changeLanguage('en');
+            } else {
+                changeLanguage('fr');
+            }
+        });
+    </script>
+</body>
+</html>
