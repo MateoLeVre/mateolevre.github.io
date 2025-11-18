@@ -253,6 +253,115 @@
             padding: 4rem 0;
         }
 
+        /* Contact Form */
+        .contact-form-section {
+            background: white;
+            padding: 3rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 3rem;
+        }
+
+        .contact-form-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-form-section > p {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .contact-form {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--primary-lighter);
+            border-radius: 0.75rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--light);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(37, 99, 235, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: var(--text-light);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .form-status.success {
+            display: block;
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .form-status.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -531,15 +640,41 @@
     <!-- Contact Content -->
     <section class="contact-content">
         <div class="container">
-            <div class="contact-grid">
-                <!-- Email Card -->
-                <div class="contact-card">
-                    <div class="icon">📧</div>
-                    <h3 data-i18n="contact.email.title">Email</h3>
-                    <p data-i18n="contact.email.subtitle">Envoyez-moi un message</p>
-                    <a href="mailto:mateo.bourdin@etu.univ-smb.fr">mateo.bourdin@etu.univ-smb.fr</a>
-                </div>
+            <!-- Contact Form -->
+            <div class="contact-form-section">
+                <h2 data-i18n="contact.form.title">📬 Envoyez-moi un message</h2>
+                <p data-i18n="contact.form.subtitle">Remplissez le formulaire ci-dessous et je vous répondrai dans les plus brefs délais</p>
 
+                <form id="contactForm" class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                    <div class="form-group">
+                        <label for="name" data-i18n="contact.form.name">Nom *</label>
+                        <input type="text" id="name" name="name" required placeholder="Votre nom complet">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" data-i18n="contact.form.email">Email *</label>
+                        <input type="email" id="email" name="email" required placeholder="votre.email@exemple.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject" data-i18n="contact.form.subject">Sujet *</label>
+                        <input type="text" id="subject" name="subject" required placeholder="Objet de votre message">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message" data-i18n="contact.form.message">Message *</label>
+                        <textarea id="message" name="message" required rows="6" placeholder="Votre message..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" data-i18n="contact.form.submit">
+                        📨 Envoyer le message
+                    </button>
+
+                    <div id="formStatus" class="form-status"></div>
+                </form>
+            </div>
+
+            <div class="contact-grid" style="margin-top: 3rem;">
                 <!-- LinkedIn Card -->
                 <div class="contact-card">
                     <div class="icon">💼</div>
@@ -642,9 +777,17 @@
                         me: 'moi',
                         subtitle: 'Je suis disponible pour discuter de votre projet ou d\'opportunités de stage'
                     },
-                    email: {
-                        title: 'Email',
-                        subtitle: 'Envoyez-moi un message'
+                    form: {
+                        title: '📬 Envoyez-moi un message',
+                        subtitle: 'Remplissez le formulaire ci-dessous et je vous répondrai dans les plus brefs délais',
+                        name: 'Nom *',
+                        email: 'Email *',
+                        subject: 'Sujet *',
+                        message: 'Message *',
+                        submit: '📨 Envoyer le message',
+                        sending: '⏳ Envoi en cours...',
+                        success: '✅ Message envoyé avec succès ! Je vous répondrai bientôt.',
+                        error: '❌ Erreur lors de l\'envoi. Veuillez réessayer.'
                     },
                     linkedin: {
                         title: 'LinkedIn',
@@ -686,9 +829,17 @@
                         me: 'Me',
                         subtitle: 'I\'m available to discuss your project or internship opportunities'
                     },
-                    email: {
-                        title: 'Email',
-                        subtitle: 'Send me a message'
+                    form: {
+                        title: '📬 Send me a message',
+                        subtitle: 'Fill out the form below and I will get back to you as soon as possible',
+                        name: 'Name *',
+                        email: 'Email *',
+                        subject: 'Subject *',
+                        message: 'Message *',
+                        submit: '📨 Send message',
+                        sending: '⏳ Sending...',
+                        success: '✅ Message sent successfully! I will reply soon.',
+                        error: '❌ Error sending message. Please try again.'
                     },
                     linkedin: {
                         title: 'LinkedIn',
@@ -765,6 +916,55 @@
         // Load saved language preference or default to French
         const savedLang = localStorage.getItem('preferredLanguage') || 'fr';
         changeLanguage(savedLang);
+
+        // Contact Form Handling
+        const contactForm = document.getElementById('contactForm');
+        const formStatus = document.getElementById('formStatus');
+        const submitBtn = contactForm.querySelector('.submit-btn');
+        const submitBtnText = submitBtn.textContent;
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Disable submit button
+            submitBtn.disabled = true;
+            const currentLang = localStorage.getItem('preferredLanguage') || 'fr';
+            submitBtn.textContent = translations[currentLang].contact.form.sending;
+
+            // Hide previous status
+            formStatus.className = 'form-status';
+            formStatus.textContent = '';
+
+            try {
+                const formData = new FormData(contactForm);
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    // Success
+                    formStatus.className = 'form-status success';
+                    formStatus.textContent = translations[currentLang].contact.form.success;
+                    contactForm.reset();
+                } else {
+                    // Error
+                    formStatus.className = 'form-status error';
+                    formStatus.textContent = translations[currentLang].contact.form.error;
+                }
+            } catch (error) {
+                // Network error
+                formStatus.className = 'form-status error';
+                formStatus.textContent = translations[currentLang].contact.form.error;
+            } finally {
+                // Re-enable submit button
+                submitBtn.disabled = false;
+                submitBtn.textContent = translations[currentLang].contact.form.submit;
+            }
+        });
     </script>
 </body>
 </html>
